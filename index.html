@@ -3,141 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Electricity Savings Calculators</title>
+    <title>CSV Column Mapping</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
             margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .calculator {
-            background-color: #fff;
             padding: 20px;
-            margin: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
         }
-
-        .calculator h2 {
-            margin-bottom: 20px;
-            font-size: 24px;
+        h1 {
             color: #333;
-        }
-
-        .calculator label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
-            color: #555;
-        }
-
-        .calculator input, .calculator select {
-            width: calc(100% - 20px);
-            padding: 8px;
+            font-size: 24px;
             margin-bottom: 20px;
+        }
+        input[type="file"] {
+            padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
-        }
-
-        .calculator button {
-            width: 100%;
-            padding: 10px;
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
+            background-color: #fff;
             cursor: pointer;
         }
-
-        .calculator button:hover {
-            background-color: #218838;
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
-
-        .result {
+        button:hover {
+            background-color: #0056b3;
+        }
+        #mappingSection, #resultSection {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-top: 20px;
-            font-size: 18px;
-            color: #333;
+        }
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        td {
+            background-color: #f9f9f9;
         }
     </style>
 </head>
 <body>
+    <h1>CSV Column Mapping Demo</h1>
+    <input type="file" id="csvFileInput" accept=".csv">
+    <button onclick="mapCSV()">Map CSV Data</button>
 
-    <div class="calculator" id="calc1">
-        <h2>Electricity Bill Savings</h2>
-        <label for="billAmount">Average Cost of Bill</label>
-        <input type="number" id="billAmount" placeholder="Enter amount">
-
-        <label for="costType">Cost Type</label>
-        <select id="costType">
-            <option value="monthly">Monthly</option>
-            <option value="annual">Annual</option>
-        </select>
-
-        <label for="savingsPercentage">Savings Percentage</label>
-        <select id="savingsPercentage">
-            <option value="0.9">10%</option>
-            <option value="0.85">15%</option>
-            <option value="0.8">20%</option>
-        </select>
-
-        <button onclick="calculateSavings()">Calculate Savings</button>
-
-        <div class="result" id="result1"></div>
+    <div id="mappingSection" style="display: none;">
+        <h2>Adjust Column Mappings</h2>
+        <div id="mappingContainer"></div>
+        <button onclick="finalizeMapping()">Finalize Mapping</button>
     </div>
 
-    <div class="calculator" id="calc2">
-        <h2>Developer Savings</h2>
-        <label for="numProperties">Number of Properties</label>
-        <input type="number" id="numProperties" placeholder="Enter number of properties">
-
-        <label for="propertySavingsPercentage">Savings per Property</label>
-        <select id="propertySavingsPercentage">
-            <option value="82.8">10%</option>
-            <option value="124.24">15%</option>
-            <option value="165.66">20%</option>
-        </select>
-
-        <button onclick="calculatePropertySavings()">Calculate Savings</button>
-
-        <div class="result" id="result2"></div>
+    <div id="resultSection" style="display: none;">
+        <h2>Mapped Data</h2>
+        <table id="resultTable"></table>
     </div>
 
-    <script>
-        function calculateSavings() {
-            const billAmount = parseFloat(document.getElementById('billAmount').value);
-            const costType = document.getElementById('costType').value;
-            const savingsPercentage = parseFloat(document.getElementById('savingsPercentage').value);
-
-            const annualBill = costType === 'monthly' ? billAmount * 12 : billAmount;
-            const savings = annualBill / savingsPercentage;
-
-            document.getElementById('result1').innerHTML = `
-                1 Year Savings: $${(savings - annualBill).toFixed(2)}<br>
-                5 Year Savings: $${((savings - annualBill) * 5).toFixed(2)}<br>
-                10 Year Savings: $${((savings - annualBill) * 10).toFixed(2)}<br>
-                20 Year Savings: $${((savings - annualBill) * 20).toFixed(2)}
-            `;
-        }
-
-        function calculatePropertySavings() {
-            const numProperties = parseInt(document.getElementById('numProperties').value);
-            const savingsPerProperty = parseFloat(document.getElementById('propertySavingsPercentage').value);
-
-            const totalSavings = numProperties * savingsPerProperty;
-
-            document.getElementById('result2').innerHTML = `Total Savings: ${totalSavings.toFixed(2)}`;
-        }
-    </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
