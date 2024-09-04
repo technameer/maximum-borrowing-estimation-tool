@@ -3,144 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ROI Calculator</title>
+    <title>Improved Rent Advance Calculator</title>
     <style>
+        :root {
+            --primary-color: #10B981;
+            --secondary-color: #1E293B;
+            --text-color: #333;
+            --light-text: #6B7280;
+            --background-color: #F3F4F6;
+        }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background-color);
             margin: 0;
-            padding: 0;
+            padding: 20px;
+            color: var(--text-color);
         }
         .container {
+            max-width: 1000px;
+            margin: 0 auto;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            gap: 30px;
         }
-        .calculator {
+        .left-panel, .right-panel {
+            flex: 1;
+        }
+        .card {
             background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            width: 800px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .inputs {
-            width: 45%;
-        }
-        .inputs h2 {
-            color: #007bff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 24px;
             margin-bottom: 20px;
         }
-        .inputs label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-        .inputs input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .inputs button {
-            background-color: #007bff;
+        .dark-card {
+            background-color: var(--secondary-color);
             color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 24px;
+            color: var(--secondary-color);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--light-text);
+        }
+        input[type="number"] {
             width: 100%;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
             font-size: 16px;
         }
-        .inputs button:hover {
-            background-color: #0056b3;
+        .slider-container {
+            margin-bottom: 24px;
         }
-        .report {
-            width: 45%;
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #E5E7EB;
+            outline: none;
+            margin-bottom: 16px;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+        }
+        .slider-labels {
             display: flex;
-            flex-direction: column;
-            gap: 20px; /* Space between boxes */
+            justify-content: space-between;
+            font-size: 14px;
+            color: var(--light-text);
         }
-        .report-box {
-            background-color: #e9ecef;
-            padding: 20px;
+        .button {
+            padding: 12px 24px;
+            border: none;
             border-radius: 8px;
-            text-align: center;
-            flex: 1; /* Allow boxes to grow equally */
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
         }
-        .report-box h3 {
-            color: #333;
-            margin-bottom: 10px;
+        .button-primary {
+            background-color: var(--primary-color);
+            color: white;
         }
-        .report-box p {
-            margin: 0;
-            color: #555;
+        .button-primary:hover {
+            background-color: #0E9F6E;
+        }
+        .button-secondary {
+            background-color: white;
+            color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+        }
+        .button-secondary:hover {
+            background-color: #F3F4F6;
+        }
+        .large-text {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 24px;
+        }
+        .info-row {
+            margin-bottom: 16px;
             font-size: 18px;
-            filter: blur(3px); /* Blur effect */
-            transition: filter 0.3s ease; /* Smooth transition for unblur */
         }
-        .report-box p.visible {
-            filter: none; /* Remove blur */
+        .bold {
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="calculator">
-            <div class="inputs">
-                <h2>ROI Calculator</h2>
-                <label for="devices">Number of Devices:</label>
-                <input type="number" id="devices" value="50" required>
-
-                <label for="wage">Hourly Wage of IT Admin ($):</label>
-                <input type="number" id="wage" value="30" required>
-
-                <label for="productivity">Employee Productivity per week ($):</label>
-                <input type="number" id="productivity" value="200" required>
-
-                <button onclick="calculateROI()">Calculate ROI</button>
+        <div class="left-panel">
+            <h1>Customise your rent advance</h1>
+            <div class="card">
+                <label for="weekly-rent">Weekly Rent Amount</label>
+                <input type="number" id="weekly-rent" value="500" min="0">
+                
+                <label for="advance-amount">Your Advance Amount</label>
+                <input type="number" id="advance-amount" readonly>
+                
+                <div class="slider-container">
+                    <input type="range" class="slider" id="term-slider" min="12" max="24" value="12">
+                    <div class="slider-labels">
+                        <span>1 year</span>
+                        <span>1.5 years</span>
+                        <span>2 years</span>
+                    </div>
+                </div>
             </div>
-
-            <div class="report">
-                <div class="report-box" id="amountSavedBox">
-                    <h3>Amount Saved in the First Year</h3>
-                    <p id="savings" class="blurred">$$$</p>
+            <button class="button button-primary" onclick="alert('Application submitted!')">Apply now</button>
+            <button class="button button-secondary" onclick="alert('An expert will contact you soon.')">Talk to an expert</button>
+        </div>
+        <div class="right-panel">
+            <div class="card dark-card">
+                <h2>Rent advanced to you</h2>
+                <div class="large-text" id="total-advance">$0</div>
+                <div class="info-row">
+                    <span class="bold" id="term-display">12 months</span> Term
                 </div>
-                <div class="report-box" id="paybackBox">
-                    <h3>Payback Period</h3>
-                    <p id="payback" class="blurred">$$$</p>
+                <div class="info-row">
+                    <span class="bold" id="monthly-principal">$0</span> Principal / month
                 </div>
-                <div class="report-box" id="roiBox">
-                    <h3>Calculated ROI</h3>
-                    <p id="roi" class="blurred">$$$</p>
+                <div class="info-row">
+                    <span class="bold" id="tenant-rent">$0</span> Rent paid by tenant / month
+                </div>
+                <div class="info-row">
+                    <span class="bold" id="monthly-interest">$0</span> Avg. interest / month
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        function calculateROI() {
-            const devices = parseInt(document.getElementById('devices').value);
-            const wage = parseFloat(document.getElementById('wage').value);
-            const productivity = parseFloat(document.getElementById('productivity').value);
+        const weeklyRentInput = document.getElementById('weekly-rent');
+        const advanceAmountInput = document.getElementById('advance-amount');
+        const termSlider = document.getElementById('term-slider');
+        const totalAdvanceDisplay = document.getElementById('total-advance');
+        const termDisplay = document.getElementById('term-display');
+        const monthlyPrincipalDisplay = document.getElementById('monthly-principal');
+        const tenantRentDisplay = document.getElementById('tenant-rent');
+        const monthlyInterestDisplay = document.getElementById('monthly-interest');
 
-            const itHoursSaved = devices * 10; // Assuming 10 hours saved per week
-            const amountSaved = (itHoursSaved * wage * 52) + (productivity * devices); // Annual savings
-            const paybackPeriod = (amountSaved > 0) ? (10000 / amountSaved).toFixed(2) : 'N/A'; // Example investment of $10,000
-            const roi = (amountSaved > 0) ? ((amountSaved - 10000) / 10000 * 100).toFixed(2) + '%' : 'N/A';
+        const ESTABLISHMENT_FEE = 300;
+        const INTEREST_RATE = 0.15; // 15% per annum
 
-            document.getElementById('savings').innerText = `$${amountSaved.toFixed(2)}`;
-            document.getElementById('payback').innerText = `${paybackPeriod} years`;
-            document.getElementById('roi').innerText = `${roi}`;
-
-            // Show results without blur
-            document.querySelectorAll('.report-box p').forEach(p => {
-                p.classList.add('visible'); // Remove blur effect
-            });
+        function calculateAdvance() {
+            const weeklyRent = parseFloat(weeklyRentInput.value) || 0;
+            const termMonths = parseInt(termSlider.value);
+            const totalRent = weeklyRent * 52 * (termMonths / 12);
+            const totalLoan = totalRent + ESTABLISHMENT_FEE;
+            
+            advanceAmountInput.value = totalRent.toFixed(2);
+            totalAdvanceDisplay.textContent = `$${totalRent.toFixed(2)}`;
+            termDisplay.textContent = `${termMonths} months`;
+            
+            const monthlyPrincipal = totalLoan / 36;
+            monthlyPrincipalDisplay.textContent = `$${monthlyPrincipal.toFixed(2)}`;
+            
+            const monthlyRent = weeklyRent * 52 / 12;
+            tenantRentDisplay.textContent = `$${monthlyRent.toFixed(2)}`;
+            
+            const totalInterest = (totalLoan * INTEREST_RATE * 3) / 2; // Simplified interest calculation
+            const monthlyInterest = totalInterest / 36;
+            monthlyInterestDisplay.textContent = `$${monthlyInterest.toFixed(2)}`;
         }
+
+        weeklyRentInput.addEventListener('input', calculateAdvance);
+        termSlider.addEventListener('input', calculateAdvance);
+
+        // Initial calculation
+        calculateAdvance();
     </script>
 </body>
 </html>
