@@ -3,210 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Improved Rent Advance Calculator</title>
+    <title>Istighfar Counter</title>
     <style>
-        :root {
-            --primary-color: #10B981;
-            --secondary-color: #1E293B;
-            --text-color: #333;
-            --light-text: #6B7280;
-            --background-color: #F3F4F6;
-        }
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: var(--background-color);
-            margin: 0;
-            padding: 20px;
-            color: var(--text-color);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(120deg, #f0f0f0, #ffffff);
+        margin: 0;
         }
+
         .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: flex;
-            gap: 30px;
-            align-items:center;
+        text-align: center;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 300px;
         }
-        .left-panel, .right-panel {
-            flex: 1;
-        }
-        .card {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            padding: 24px;
-            margin-bottom: 20px;
-        }
-        .dark-card {
-            background-color: var(--secondary-color);
-            color: white;
-        }
+
         h1 {
-            font-size: 28px;
-            margin-bottom: 24px;
-            color: var(--secondary-color);
+        margin-bottom: 20px;
+        color: #333333;
         }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: var(--light-text);
+
+        .buttons {
+        margin-bottom: 20px;
         }
-        input[type="number"] {
-            width: 330px;
-            max-width:100%;
-            padding: 12px;
-            margin-bottom: 16px;
-            border: 2px solid #E5E7EB;
-            border-radius: 8px;
-            font-size: 16px;
+
+        button {
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007BFF;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
         }
-        .slider-container {
-            margin-bottom: 24px;
+
+        button:hover {
+        background-color: #0056b3;
         }
-        .slider {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 8px;
-            border-radius: 5px;
-            background: #E5E7EB;
-            outline: none;
-            margin-bottom: 16px;
+
+        #counter {
+        font-size: 20px;
+        color: #333333;
+        margin-bottom: 10px;
         }
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: var(--primary-color);
-            cursor: pointer;
+
+        #phrases {
+        font-size: 16px;
+        color: #555555;
+        background-color: #f7f7f7;
+        padding: 10px;
+        border-radius: 5px;
+        word-wrap: break-word;
         }
-        .slider-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            color: var(--light-text);
-        }
-        .button {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        .button-primary {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        .button-primary:hover {
-            background-color: #0E9F6E;
-        }
-        .button-secondary {
-            background-color: white;
-            color: var(--secondary-color);
-            border: 2px solid var(--secondary-color);
-        }
-        .button-secondary:hover {
-            background-color: #F3F4F6;
-        }
-        .large-text {
-            font-size: 48px;
-            font-weight: bold;
-            margin-bottom: 24px;
-        }
-        .info-row {
-            margin-bottom: 16px;
-            font-size: 18px;
-        }
-        .bold {
-            font-weight: bold;
-        }
-    </style>
+
+        </style>
 </head>
 <body>
     <div class="container">
-        <div class="left-panel">
-            <h1>Customise your rent advance</h1>
-            <div class="card">
-                <label for="weekly-rent">Weekly Rent Amount</label>
-                <input type="number" id="weekly-rent" value="500" min="0">
-                
-                <label for="advance-amount">Your Advance Amount</label>
-                <input type="number" id="advance-amount" readonly>
-                
-                <div class="slider-container">
-                    <input type="range" class="slider" id="term-slider" min="12" max="24" value="12">
-                    <div class="slider-labels">
-                        <span>1 year</span>
-                        <span>1.5 years</span>
-                        <span>2 years</span>
-                    </div>
-                </div>
-            </div>
-            <button class="button button-primary" onclick="alert('Application submitted!')">Apply now</button>
-            <button class="button button-secondary" onclick="alert('An expert will contact you soon.')">Talk to an expert</button>
+        <h1>Istighfar Counter</h1>
+        <div class="buttons">
+            <button id="start-button">Start</button>
+            <button id="stop-button">Stop</button>
         </div>
-        <div class="right-panel">
-            <div class="card dark-card">
-                <h2>Rent advanced to you</h2>
-                <div class="large-text" id="total-advance">$0</div>
-                <div class="info-row">
-                    <span class="bold" id="term-display">12 months</span> Term
-                </div>
-                <div class="info-row">
-                    <span class="bold" id="monthly-principal">$0</span> Principal / month
-                </div>
-                <div class="info-row">
-                    <span class="bold" id="tenant-rent">$0</span> Rent paid by tenant / month
-                </div>
-                <div class="info-row">
-                    <span class="bold" id="monthly-interest">$0</span> Avg. interest / month
-                </div>
-            </div>
-        </div>
+        <div id="counter">Count: 0</div>
+        <div id="phrases">Phrases:</div>
     </div>
-
     <script>
-        const weeklyRentInput = document.getElementById('weekly-rent');
-        const advanceAmountInput = document.getElementById('advance-amount');
-        const termSlider = document.getElementById('term-slider');
-        const totalAdvanceDisplay = document.getElementById('total-advance');
-        const termDisplay = document.getElementById('term-display');
-        const monthlyPrincipalDisplay = document.getElementById('monthly-principal');
-        const tenantRentDisplay = document.getElementById('tenant-rent');
-        const monthlyInterestDisplay = document.getElementById('monthly-interest');
+        let count = 0;
+        let interval;
 
-        const ESTABLISHMENT_FEE = 300;
-        const INTEREST_RATE = 0.15; // 15% per annum
+        const phrases = [
+            "Astaghfirullah",
+            "Allahumma inni astaghfiruka wa atubu ilaik"
+        ];
 
-        function calculateAdvance() {
-            const weeklyRent = parseFloat(weeklyRentInput.value) || 0;
-            const termMonths = parseInt(termSlider.value);
-            const totalRent = weeklyRent * 52 * (termMonths / 12);
-            const totalLoan = totalRent + ESTABLISHMENT_FEE;
-            
-            advanceAmountInput.value = totalRent.toFixed(2);
-            totalAdvanceDisplay.textContent = `$${totalRent.toFixed(2)}`;
-            termDisplay.textContent = `${termMonths} months`;
-            
-            const monthlyPrincipal = totalLoan / 36;
-            monthlyPrincipalDisplay.textContent = `$${monthlyPrincipal.toFixed(2)}`;
-            
-            const monthlyRent = weeklyRent * 52 / 12;
-            tenantRentDisplay.textContent = `$${monthlyRent.toFixed(2)}`;
-            
-            const totalInterest = (totalLoan * INTEREST_RATE * 3) / 2; // Simplified interest calculation
-            const monthlyInterest = totalInterest / 36;
-            monthlyInterestDisplay.textContent = `$${monthlyInterest.toFixed(2)}`;
+        function startRecognition() {
+            interval = setInterval(() => {
+                const phrase = phrases[Math.floor(Math.random() * phrases.length)];
+                document.getElementById('phrases').textContent = `Phrase: ${phrase}`;
+                count++;
+                document.getElementById('counter').textContent = `Count: ${count}`;
+            }, getRandomInterval());
         }
 
-        weeklyRentInput.addEventListener('input', calculateAdvance);
-        termSlider.addEventListener('input', calculateAdvance);
+        function stopRecognition() {
+            clearInterval(interval);
+        }
 
-        // Initial calculation
-        calculateAdvance();
+        function getRandomInterval() {
+            return Math.floor(Math.random() * (3000 - 1000 + 1)) + 1000; // Random interval between 1 and 3 seconds
+        }
+
+        document.getElementById('start-button').addEventListener('click', () => {
+            stopRecognition(); // Ensure no previous interval is running
+            startRecognition();
+        });
+        document.getElementById('stop-button').addEventListener('click', stopRecognition);
+
     </script>
 </body>
 </html>
